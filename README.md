@@ -1,5 +1,5 @@
 # Void Server List
-The code for https://voidlist.xyz
+The code for https://voidlist.xyz a Node.JS Discord server list.
 
 ---
 
