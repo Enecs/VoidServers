@@ -1,4 +1,4 @@
-# VoidServers
+# Void Server List
 The code for https://voidlist.xyz
 
 ---
