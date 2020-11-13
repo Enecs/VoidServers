@@ -1,0 +1,264 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link rel='stylesheet' href='https://cdn.rawgit.com/sindresorhus/github-markdown-css/gh-pages/github-markdown.css'>
+
+
+  <title>Void Servers - <%= guild.name %></title>
+  <%- include('../blocks/header') %>
+
+<meta property="og:title" content="<%= guild.name %>" />
+<!-- <meta name="og:site_name" content="VoidList.xyz"> -->
+<meta property="og:type" content="website" />
+<meta property="og:description" content="<%= server.description %>
+
+🟢 <%= guild.members.cache.filter(m => m.user.presence.status != "offline").size %> Online ⚫ <%= guild.memberCount %> Members" />
+<meta name="description" content="<%= server.description %>
+
+🟢 <%= guild.members.cache.filter(m => m.user.presence.status != "offline").size %> Online ⚫ <%= guild.memberCount %> Members" />
+<meta name="og:image" content="<%= guild.iconURL({ format: 'png', size: 512 }) %>" />
+<meta name="theme-color" content="#2F3136" />
+</head>
+<%- include('../blocks/navbar', { bot, user }) %>
+<body ng-app="app" ng-controller="ctrl">
+  <%- include('../blocks/guildtop', { bot, user, guild }) %>
+   <div class="container mt-3" style="cursor:default;">
+     <div class="alert alert-success" id="vanitytxt" style="display:none;">Successfully copied <b>https://di.scord.xyz/<%= server.vanity.code %></b> to your clipboard!</div>
+     <div class="alert alert-success alert-dismissible fade show" id="edited" style="display:none;">Successfully updated your server page! <button type="button" class="close" data-dismiss="alert" aria-label="Close" style="outline:none;"><span aria-hidden="true"><i class="fas fa-times"></i></span></button></div>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card mb-3">
+  <div class="card-header"><h5><i class="fa fa-info-circle" aria-hidden="true"></i> Server Info</h5></div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Owner:</strong> <%= guild.owner.user.tag %></li>
+        <li class="list-group-item"><strong>Members:</strong> <%= guild.memberCount %> <a data-toggle="collapse" href="#collapseMembers" role="button" aria-expanded="false" class="outlink" aria-controls="collapseMembers"><span data-toggle="tooltip" title="Click to show more info!">(More)</span></a></li>
+        <div class="collapse" id="collapseMembers" style="border: none;">
+        <li class="list-group-item"><strong>Humans:</strong> <%= guild.members.cache.filter(m => !m.user.bot).size %></li>
+        <li class="list-group-item"><strong>Bots:</strong> <%= guild.members.cache.filter(m => m.user.bot).size %></li>
+        <%- guild.premiumSubscriptionCount != 0 ? `<li class="list-group-item"><strong>Boosters:</strong> ${guild.premiumSubscriptionCount}</li>` : '' %>
+        </div>
+        <li class="list-group-item"><strong>Emojis:</strong> <%= guild.emojis.cache.size %> <a data-toggle="collapse" class="outlink" href="#collapseEmojis" role="button" aria-expanded="false" aria-controls="collapseEmojis"><span data-toggle="tooltip" title="Click to show all emojis!">(Show)</span></a></li>
+        <div class="collapse" id="collapseEmojis" style="border: 1px solid #DFDFDF;"><li class="list-group-item bg-dark">
+        <%- guild.emojis.cache.size == 0 ? `<br /><p class="text-light" style="padding-bottom:10px; text-align:center;">This server has no emojis</p>` : '' %>
+        <% guild.emojis.cache.forEach((e,i) => { %>
+          <span data-toggle="tooltip" data-html="true" title="<img style='max-width:50px; max-height:50px; min-width:50px; min-height:25px;' src='<%= e.url %>' /><br /><b>:<%= e.name %>:</b>"><img style="max-width:25px; max-height:25px;" src="<%= e.url %>" /></span>
+        <% }) %>
+        </li></div>
+        <% if (server.categories.length != 0) { %>
+            <li class="list-group-item"><strong>Categories:</strong>
+                <% server.categories.forEach((m,i) => { %>
+                    <a class="badge badge-secondary" href="/tag/<%= m %>"><%- m.toProperCase() %></a>
+                <% }) %>
+            </li>
+        <% } %>
+        <%- server.vanity.code ? `<li class="list-group-item"><strong>Vanity:</strong> <a href="javascript:copyTXT()"><span data-toggle="tooltip" title="Click to copy!" class="badge badge-dark">di.scord.xyz/${server.vanity.code}</span></a></li>` : '' %>
+        <li class="list-group-item"><strong>Last Bumped:</strong> <span data-toggle="tooltip" title="<%= moment(server.lastbumped).format('LLL') %> UTC"><%= moment(server.lastbumped).fromNow() %></span></li>
+        <li class="list-group-item"><a class="btn btn-success btn-block" href="/server/<%= guild.id %>/join">Join</a><%- isManaged ? `<div class="btn-group" style="width:100%; padding-top:8px;"><a class="btn btn-info" style="width:50%;" href="/server/${guild.id}/bump">Bump</a> <a class="btn btn-secondary" style="width:50%;" href="/server/${guild.id}/edit">Edit</a></div>` : `<a class="btn btn-info btn-block" href="/server/${guild.id}/bump">Bump</a>` %></li>
+      </ul>
+    </div>
+<!--    <div class="collapse" id="collapseEmojis">
+      <div class="card">
+        <div class="card-header"><h5><i class="fas fa-grin-tongue-wink"></i> Server Emojis</h5></div>
+        <div class="card-body bg-dark">
+          <%- guild.emojis.cache.size == 0 ? `<br /><p class="text-light" style="padding-bottom:10px; text-align:center;">This server has no emojis</p>` : '' %>
+          <% guild.emojis.cache.forEach((e,i) => { %>
+            <span data-toggle="tooltip" data-html="true" title="<img style='max-width:50px; max-height:50px; min-width:50px; min-height:25px;' src='<%= e.url %>' /><br /><b>:<%= e.name %>:</b>"><img style="max-width:25px; max-height:25px;" src="<%= e.url %>" /></span>
+          <% }) %>
+      </div>
+      </div>
+      <br /><br /><br />
+    </div>-->
+  </div>
+    <div class="col-md-8">
+      <div class="card mb-3">
+  <!--<div class="card-header"><h5><i class="fas fa-file-alt"></i> About <%= guild.name %></h5></div>-->
+  <div class="card-body"><div id="nobr" class="markdown-body"><%- server.long %></div></div>
+</div>
+  </div>
+</div>
+</div>
+<style>
+/* CSS is cool btw
+#nobr {
+  white-space: pre-wrap;
+}
+#nobr p, h1, h2, h3, h4, h5, h6 {
+  margin:0;
+  padding:0;
+
+}
+*/
+</style>
+
+<!-- Cooldown Modal -->
+<div class="modal fade" id="bumpModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <br />
+        <center><h5>Too early! Please come back in</h5><div id="clockdiv">
+            <div>
+              <span class="hours"></span>
+              <div class="smalltext">Hours</div>
+            </div>
+            <div>
+              <span class="minutes"></span>
+              <div class="smalltext">Minutes</div>
+            </div>
+            <div>
+              <span class="seconds"></span>
+              <div class="smalltext">Seconds</div>
+            </div>
+          </div><p>(Servers can be bumped every 2 hours)</p></center>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="bumpsuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <center><br /><h5 style="padding-bottom:10px;">🎉 Successfully bumped <%= guild.name %> 🎉</h5></center>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-secondary btn-block" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+<input style="opacity:0; bottom:0; left:-10000; position:relative;" id="vanity" value="https://di.scord.xyz/<%= server.vanity.code %>" type="text"></input>
+<div id="succ"><p><b>Copied Vanity Link!</b></p><p id="thecopiedlink">https://di.scord.xyz/<%= server.vanity.code %></p></div>
+<script>
+function copyTXT() {
+    var popup = document.getElementById("succ");
+    var copyText = document.getElementById("vanity");
+    copyText.select();
+    copyText.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    $("#succ").animate({ opacity: "1", left: "15px" }, 300);
+    setTimeout(() => { $("#succ").animate({ opacity: "0", left: "-500px" }, 300); }, 1900);
+}
+</script>
+<style>
+#succ {
+    background:#D4EDDA;
+    color:#155724;
+    bottom: 50px;
+    left: -500px;
+    padding: 15px;
+    padding-bottom: 0;
+    position: fixed;
+    opacity: 0;
+    line-height:10px;
+    border-radius:5px;
+    transition: left 0.5s, opacity 0.59s;
+    box-shadow:0 5px 5px #C3E6CB;
+}
+#thecopiedlink {
+    font-size:15px;
+}
+blockquote {
+  color:#000 !important;
+  border-radius:5px;
+  background:#F7F7F7;
+}
+#nobr hr {
+  height:1px;
+}
+</style>
+<script>
+function get(name, url) {
+	if (!url) url = window.location.href;
+		name = name.replace(/[\[\]]/g, '\\$&');
+	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+$(document).ready(function() {
+  if(get("type") == "cooldown") {
+    $('#bumpModal').modal('show');
+    initializeClock('clockdiv', `<%= server.lastbumped %>`)
+  }
+  if(get("type") == "success") {
+    $('#bumpsuccessModal').modal('show');
+  }
+  if(get("type") == "edited") {
+    $('#edited').toggle();
+    /* setTimeout(() => {
+        window.location.replace("<%= process.env.DOMAIN %>/server/<%= guild.id %>/")
+    }, 5000) */
+  }
+});
+
+/* Clock functions */
+function getTimeRemaining(endtime) {
+	const total = Date.parse(new Date()) - Date.parse(endtime);
+	const seconds = 60 - Math.floor((total / 1000) % 60);
+	const minutes = 59 - Math.floor((total / 1000 / 60) % 60);
+	const hours = 1 - Math.floor((total / (1000 * 60 * 60)) % 24);
+	return { total, hours, minutes, seconds };
+}
+
+function initializeClock(id, endtime) {
+  const clock = document.getElementById(id);
+  const hoursSpan = clock.querySelector('.hours');
+  const minutesSpan = clock.querySelector('.minutes');
+  const secondsSpan = clock.querySelector('.seconds');
+
+  function updateClock() {
+    const t = getTimeRemaining(endtime);
+
+    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+    console.log(t.hours, t.minutes, t.seconds);
+
+    if (t.hours <= 0) {
+      clearInterval(timeinterval);
+      window.location = "<%= process.env.DOMAIN.replace('https//') %>/server/<%= guild.id %>/bump"
+    }
+  }
+
+  const timeinterval = setInterval(updateClock, 1000);
+  updateClock();
+}
+</script>
+<style>
+#clockdiv{
+	font-family: sans-serif;
+	color: #000;
+	display: inline-block;
+	font-weight: 100;
+	text-align: center;
+	font-size: 30px;
+}
+#clockdiv > div{
+	padding: 10px;
+	border-radius: 3px;
+	background: #F0F0F0;
+	display: inline-block;
+}
+#clockdiv div > span{
+	padding: 15px;
+	border-radius: 3px;
+	background: #F6F6F6;
+	display: inline-block;
+}
+.smalltext{
+	padding-top: 5px;
+	font-size: 16px;
+}
+.button-hover:hover {
+	border-color: #fff;
+}
+</style>
+<%- include('../blocks/footer') %>
+</body>
+</html>

@@ -1,0 +1,26 @@
+/* TEXT HIGHLIGHT COLOR *//* TEXT HIGHLIGHT COLOR */
+::-moz-selection {
+  color: #fff;
+  background: rgba(160, 40, 105, 1);
+}
+
+::selection {
+  color: #fff;
+  background: rgba(160, 40, 105, 1);
+}
+/* TEXT HIGHLIGHT COLOR *//* TEXT HIGHLIGHT COLOR */
+
+/* SCROLL BAR *//* SCROLL BAR *//* SCROLL BAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F6F6F6;
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #989898;
+}
+/* SCROLL BAR *//* SCROLL BAR *//* SCROLL BAR */

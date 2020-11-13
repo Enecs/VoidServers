@@ -1,0 +1,66 @@
+<html>
+<head>
+  <title>Void Servers - Join <%= guild.name %></title>
+<%- include('../blocks/header') %>
+<%- server.invite ? `<meta http-equiv="refresh" content="1; url=https://discord.gg/${server.invite}">` : '' %>
+<meta property="og:title" content="Join <%= guild.name %>" />
+<!-- <meta name="og:site_name" content="VoidList.xyz"> -->
+<meta property="og:type" content="website" />
+<meta property="og:description" content="<%= server.description %>
+
+🟢 <%= guild.members.cache.filter(m => m.user.presence.status != "offline").size %> Online ⚫ <%= guild.members.cache.size %> Members" />
+<meta name="description" content="<%= server.description %>
+
+🟢 <%= guild.members.cache.filter(m => m.user.presence.status != "offline").size %> Online ⚫ <%= guild.members.cache.size %> Members" />
+<meta name="og:image" content="<%= guild.iconURL({ format: 'png', size: 512 }) %>" />
+<meta name="theme-color" content="#2F3136" />
+</head>
+<%- include('../blocks/navbar', { bot, user }) %>
+<body>
+<%- include('../blocks/guildtop', { bot, user, guild }) %>
+<% if (server.password && server.invite) { %>
+<div class="container mt-3">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card mb-8">
+          <div class="card-header"><h5>Enter the password to join <code><%= guild.name %></code>!</h5></div>
+          <div class="card-body">
+            <form>
+              <input type="password" id="invpass" name="invpass" placeholder="Enter password here.">
+            </form>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<% } else if (!server.password && server.invite) { %>
+  <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card mb-8">
+            <div class="card-header"><h5><i class="fa fa-refresh fa-spin" aria-hidden="true"></i> Redirecting...</h5></div>
+            <div class="card-body">
+              Redirecting you to the discord server.
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<% } else if (!server.invite) { %>
+  <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card mb-8">
+            <div class="card-header"><h5>This server has no invite.</h5></div>
+            <div class="card-body" style="text-align:center;">
+              Please tell an administator in the server to setup the server's invite.
+              <a class="btn btn-secondary btn-sm btn-block" href="javascript:history.back()" role="button">Back</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+<% } %>
+<%- include('../blocks/footer') %>
+</body>
+</html>

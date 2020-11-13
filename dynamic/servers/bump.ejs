@@ -1,0 +1,26 @@
+<html>
+<head>
+  <title>Void Servers - Bump <%= guild.name %></title>
+<%- include('../blocks/header') %>
+</head>
+<%- include('../blocks/navbar', { bot, user }) %>
+<body>
+<%- include('../blocks/guildtop', { bot, user, guild }) %>
+   <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card mb-8">
+          <div class="card-header"><h5>Bump <%= guild.name %></h5></div>
+          <div class="card-body">
+            <form method="post">
+              <br />
+              <button type="submit" class="btn btn-success btn-block">Bump Server</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include('../blocks/footer') %>
+</body>
+</html>

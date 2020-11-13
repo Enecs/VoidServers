@@ -1,0 +1,235 @@
+<html>
+<head>
+  <meta property="og:title" content="Void Server List" />
+  <meta property="og:type" content="website" />
+  <meta property="og:description" content="Make your server known! Get a free vanity url to your server!" />
+  <meta name="description" content="Make your server known! Get a free vanity url to your server!" />
+  <meta name="og:image" content="https://discord.mx/Hp0Pvhim8I.jpg" /> <!-- https://discord.mx/ja5f0.png -->
+  <meta name="theme-color" content="#91235F" />
+<title>Void Servers</title>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Void Server List">
+  <meta name="twitter:description" content="Make your server known! Get a free vanity url to your server!">
+  <meta name="twitter:image" content="https://discord.mx/Hp0Pvhim8I.jpg">
+<%- include('./blocks/header') %>
+</head>
+<body>
+  <div class="bigthingy row">
+  <div class="seeme col-md-8 offset-md-2 row">
+    <div class="seeme col-sm-2 sinfo">
+      <p id="bigytxt" class="bigyimg"><img src="https://voidbots.net/assets/img/logo_white.png" style="width:88px; border-radius:50%;"/></p>
+    </div>
+    <div class="seeme col-sm-10 sinfo">
+      <p id="bigytxt"><span style="font-size:25px; font-weight:bold;">Void Server List<sup>BETA</sup></span><br /><span class="typed"></span></p>
+    </div>
+  </div>
+  </div>
+  <br />
+<%- include('./blocks/navbar', { bot, user }) %>
+
+<div class="container">
+  <div class="d-flex align-items-center pt-3 pb-3 my-3 section-head">
+      <div class="lh-100">
+        <h4 class="mb-0 lh-100">Recently Bumped</h4>
+        <p class="mt-1 text-muted">Below are the most recently bumped servers!</p>
+      </div>
+      <div class="ml-auto p-2"><a href="/list/bumped" class="btn btn-secondary btn-servers">More <spoan class="mobile-hide">Servers</spoan></a></div>
+    </div>
+  <div class="row">
+<% let cards = servers.sort((a, b) => b.lastbumped - a.lastbumped).slice(0, 8)
+if (cards.length === 0) { %>
+          <br> No bots found.
+          <% } else { %>
+            <% for(let i of cards) { %>
+              <div class="col-xs-12 col-md-6 col-lg-3">
+  <div class="card">
+  <div class="card-block">
+    <% if (bot.guilds.cache.get(i.guildid).icon) { %>
+      <img class="card-img-top stillimg" src="<%= `${bot.guilds.cache.get(i.guildid).iconURL({format: 'png', size: 128 })}` %>" width="50px" style="width:128px; height:128px; background-color:#F6F6F6; border-radius:50%;" alt="">
+      <img class="card-img-top dynimg" src="<%= `${bot.guilds.cache.get(i.guildid).iconURL({format: 'png', dynamic: true, size: 128 })}` %>" width="50px" style="display:none; width:128px; height:128px; background-color:#F6F6F6; border-radius:50%;" alt="">
+    <% } else { %>
+      <canvas class="card-img-top" id="<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>" width="50px" style="width:128px; height:128px; background-color:#7289da; border-radius:50%;" height="50px"></canvas>
+      <script>
+        function draw() {
+          const ctx = document.getElementById("<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+          ctx.font = '20px Arial';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "white";
+          ctx.fillText("<%= bot.guilds.cache.get(i.guildid).name.split(' ').map(v => v[0]).join('') %>", 25, 33);
+        };
+        draw();
+      </script>
+    <% } %>
+    <!--<img  src="<%= bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) ? bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) : "https://discord.mx/i/GL8UXSbWvt.png" %>"  alt="Server PFP">-->
+    <h4 class="card-title"><%= bot.guilds.cache.get(i.guildid).name %></h4>
+    <p class="card-text"><%= (i.description).slice(0, 55) %><%= (i.description).length > 55 ? "..." : "" %></p>
+  </div>
+  <div class="card-footer">
+    <a class="btn btn-success btn-sm btn-block" href="/server/<%= i.guildid %>/join" role="button">Join</a>
+    <!--<a class="btn btn-info btn-sm btn-block" href="/server/<%= i.guildid %>/bump" role="button">Bump</a>-->
+    <a class="btn btn-secondary btn-sm btn-block" href="/server/<%= i.guildid %>/" role="button">Learn More</a>
+  </div>
+</div>
+</div>
+  <% } %>
+<% } %>
+</div>
+<br /><br />
+<div class="d-flex align-items-center pt-3 pb-3 my-3 section-head">
+    <div class="lh-100">
+      <h4 class="mb-0 lh-100">Recently Added</h4>
+      <p class="mt-1 text-muted">Below are the most recently added servers!</p>
+    </div>
+    <div class="ml-auto p-2"><a href="/list/added" class="btn btn-secondary btn-servers">More <spoan class="mobile-hide">Servers</spoan></a></div>
+  </div>
+<div class="row">
+<% cards = servers.sort((a, b) => b.addedAt - a.addedAt).slice(0, 8)
+if (cards.length === 0) { %>
+        <br> No bots found.
+        <% } else { %>
+          <% for(let i of cards) { %>
+            <div class="col-xs-12 col-md-6 col-lg-3">
+<div class="card">
+<div class="card-block">
+  <% if (bot.guilds.cache.get(i.guildid).icon) { %>
+    <img class="card-img-top" src="<%= `${bot.guilds.cache.get(i.guildid).iconURL({format: 'png', size: 128 })}` %>" width="50px" style="width:128px; height:128px; background-color:#F6F6F6; border-radius:50%;" alt="">
+  <% } else { %>
+    <canvas class="card-img-top" id="<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>1" width="50px" style="width:128px; height:128px; background-color:#7289da; border-radius:50%;" height="50px"></canvas>
+    <script>
+      function draw() {
+        const ctx = document.getElementById("<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>1").getContext('2d');
+        ctx.font = '20px Arial';
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.fillText("<%= bot.guilds.cache.get(i.guildid).name.split(' ').map(v => v[0]).join('') %>", 25, 33);
+      };
+      draw();
+    </script>
+  <% } %>
+  <!--<img  src="<%= bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) ? bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) : "https://discord.mx/i/GL8UXSbWvt.png" %>"  alt="Server PFP">-->
+  <h4 class="card-title"><%= bot.guilds.cache.get(i.guildid).name %></h4>
+  <p class="card-text"><%= (i.description).slice(0, 55) %><%= (i.description).length > 55 ? "..." : "" %></p>
+</div>
+<div class="card-footer">
+  <a class="btn btn-success btn-sm btn-block" href="/server/<%= i.guildid %>/join" role="button">Join</a>
+  <!--<a class="btn btn-info btn-sm btn-block" href="/server/<%= i.guildid %>/bump" role="button">Bump</a>-->
+  <a class="btn btn-secondary btn-sm btn-block" href="/server/<%= i.guildid %>/" role="button">Learn More</a>
+</div>
+</div>
+</div>
+<% } %>
+<% } %>
+</div>
+<br /><br />
+<div class="d-flex align-items-center pt-3 pb-3 my-3 section-head">
+    <div class="lh-100">
+      <h4 class="mb-0 lh-100">Most Members</h4>
+      <p class="mt-1 text-muted">Below are the servers with the highest member count!</p>
+    </div>
+    <div class="ml-auto p-2"><a href="/list/members" class="btn btn-secondary btn-servers">More <spoan class="mobile-hide">Servers</spoan></a></div>
+  </div>
+<div class="row">
+<% cards = servers.sort((a, b) => bot.guilds.cache.get(b.guildid).members.cache.size - bot.guilds.cache.get(a.guildid).members.cache.size).slice(0, 8)
+if (cards.length === 0) { %>
+        <br> No bots found.
+        <% } else { %>
+          <% for(let i of cards) { %>
+            <div class="col-xs-12 col-md-6 col-lg-3">
+<div class="card">
+<div class="card-block">
+  <% if (bot.guilds.cache.get(i.guildid).icon) { %>
+    <img class="card-img-top" src="<%= `${bot.guilds.cache.get(i.guildid).iconURL({format: 'png', size: 128 })}` %>" width="50px" style="width:128px; height:128px; background-color:#F6F6F6; border-radius:50%;" alt="">
+  <% } else { %>
+    <canvas class="card-img-top" id="<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>2" width="50px" style="width:128px; height:128px; background-color:#7289da; border-radius:50%;" height="50px"></canvas>
+    <script>
+      function draw() {
+        const ctx = document.getElementById("<%= bot.guilds.cache.get(i.guildid).name.split(' ').join('').replace(`'`, ``) %>2").getContext('2d');
+        ctx.font = '20px Arial';
+        ctx.textAlign = "center";
+        ctx.fillStyle = "white";
+        ctx.fillText("<%= bot.guilds.cache.get(i.guildid).name.split(' ').map(v => v[0]).join('') %>", 25, 33);
+      };
+      draw();
+    </script>
+  <% } %>
+  <!--<img  src="<%= bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) ? bot.guilds.cache.get(i.guildid).iconURL({ format: 'png', size: 128 }) : "https://discord.mx/i/GL8UXSbWvt.png" %>"  alt="Server PFP">-->
+  <h4 class="card-title"><%= bot.guilds.cache.get(i.guildid).name %></h4>
+  <p class="card-text"><%= (i.description).slice(0, 55) %><%= (i.description).length > 55 ? "..." : "" %></p>
+</div>
+<div class="card-footer">
+  <a class="btn btn-success btn-sm btn-block" href="/server/<%= i.guildid %>/join" role="button">Join</a>
+  <!--<a class="btn btn-info btn-sm btn-block" href="/server/<%= i.guildid %>/bump" role="button">Bump</a>-->
+  <a class="btn btn-secondary btn-sm btn-block" href="/server/<%= i.guildid %>/" role="button">Learn More</a>
+</div>
+</div>
+</div>
+<% } %>
+<% } %>
+</div>
+</div>
+<br /><br />
+<%- include('./blocks/footer') %>
+</body>
+<style>
+  a {
+ -webkit-transition: .25s all;
+ transition: .25s all;
+}
+.card {
+  padding-left:auto;
+  padding-right:auto;
+  min-height:360px;
+  margin-top:15px;
+ box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+ -webkit-transition: .25s box-shadow;
+ transition: .25s;
+ background: #FEFEFE;
+ top:0;
+}
+.card:focus, .card:hover {
+ box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
+ top:-1px;
+}
+.card:hover .stillimg {
+  display:none;
+}
+.card:hover .dynimg {
+  display:inline-block !important;
+}
+.card-inverse .card-img-overlay {
+ background-color: rgba(51, 51, 51, 0.85);
+ border-color: rgba(51, 51, 51, 0.85);
+}
+.card-img-top{
+  margin-top:10px;
+}
+.col-xs-12{
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+}
+.row{
+  margin-left:auto;
+  margin-right:auto;
+}
+.card-footer {
+  position: absolute;
+  width: 100%;
+bottom: 0px;
+}
+</style>
+<script>
+var typed = new Typed('.typed', {
+  strings: ["Make your Discord server known!",
+            "Custom backgrounds!",
+            "Bump your server!",
+            "Stay on top!",
+            "Woooooooooooooooooooooooooooooooooooooooooooow!"],
+  typeSpeed: 80,
+  backSpeed: 70,
+  loop: true,
+  backDelay: 3000,
+  contentType: 'html'
+});
+</script>
+</html>

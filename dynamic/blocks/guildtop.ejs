@@ -1,0 +1,165 @@
+<div class="bigthingy row">
+<div class="seeme col-md-8 offset-md-2 row">
+  <div class="seeme col-sm-2 sinfo">
+    <p id="bigytxt" class="bigyimg" style="line-height:0;">
+      <% if (guild.icon) { %>
+      <img class="card-img-top" src="<%= `${guild.iconURL({format: 'png', dynamic: true, size: 128 })}` %>" width="50px" style="width:88px; border-radius:50%;" alt="">
+    <% } else { %>
+      <canvas class="card-img-top" id="<%= guild.name.split(' ').join('').replace(`'`, ``) %>" width="50px" style="width:88px; border-radius:50%; background-color:#7289da;" height="50px"></canvas>
+      <script>
+        function draw() {
+          const ctx = document.getElementById("<%= guild.name.split(' ').join('').replace(`'`, ``) %>").getContext('2d');
+          ctx.font = '20px Arial';
+          ctx.textAlign = "center";
+          ctx.fillStyle = "white";
+          ctx.fillText("<%= guild.name.split(' ').map(v => v[0]).join('') %>", 25, 33);
+        };
+        draw();
+      </script>
+    <% } %>
+    </p>
+  </div>
+  <div class="seeme col-sm-10 sinfo">
+    <p id="bigytxt"><span style="font-size:25px; font-weight:bold;"><%- guild.id == "733135938347073576" ? `<a data-toggle="tooltip" title="Official Server"><i class="fa fa-meteor" aria-hidden="true"></i></a> ` : '' %><%= guild.name %></span><br /><%= server.description %></p>
+  </div>
+</div>
+</div>
+<br />
+<style>
+<% if (server.styles.background == "default") { %>
+
+<% } else if (server.styles.background == "rbg") { %>
+  .bigthingy {
+    background: rgb(255,0,0);
+    background: linear-gradient(90deg, rgba(255,0,0,1) 0%, rgba(0,26,255,1) 100%);
+  }
+  .outlink {
+    color:rgb(255,0,0);
+  }
+<% } else if (server.styles.background == "bgg") { %>
+  .bigthingy {
+    background: rgb(0,9,255);
+    background: linear-gradient(90deg, rgba(0,9,255,1) 0%, rgba(31,255,0,1) 100%);
+  }
+  .outlink {
+    color:rgb(0,9,255);
+  }
+<% } else if (server.styles.background == "pyb") { %>
+  .bigthingy {
+    background: rgb(171,0,255);
+    background: linear-gradient(90deg, rgba(171,0,255,1) 0%, rgba(254,255,0,1) 100%);
+  }
+  .outlink {
+    color:rgb(171,0,255);
+  }
+<% } else if (server.styles.background == "pcg") { %>
+  .bigthingy {
+    background: rgb(255,0,241);
+    background: linear-gradient(90deg, rgba(255,0,241,1) 0%, rgba(0,211,255,1) 100%);
+  }
+  .outlink {
+    color:rgb(255,0,241);
+  }
+<% } else if (server.styles.background == "oyg") { %>
+  .bigthingy {
+    background: rgb(255,94,0);
+    background: linear-gradient(90deg, rgba(255,94,0,1) 0%, rgba(255,244,0,1) 100%);
+  }
+  .outlink {
+    color:rgb(255,94,0);
+  }
+<% } else if (server.styles.background == "lcg") { %>
+  .bigthingy {
+    background: rgb(48,255,0);
+    background: linear-gradient(90deg, rgba(48,255,0,1) 0%, rgba(0,254,255,1) 100%);
+  }
+  .outlink {
+    color:rgb(48,255,0);
+  }
+<% } else if (server.styles.background == "plg") { %>
+  .bigthingy {
+    background: rgb(231,0,255);
+    background: linear-gradient(90deg, rgba(231,0,255,1) 0%, rgba(255,0,56,1) 100%);
+  }
+  .outlink {
+    color:rgb(231,0,255);
+  }
+<% } else if (server.styles.background == "pog") { %>
+  .bigthingy {
+    background: rgb(255,128,0);
+    background: linear-gradient(90deg, rgba(255,0,215,1) 0%, rgba(255,128,0,1) 100%);
+  }
+  .outlink {
+    color:rgb(255,128,0);
+  }
+<% } else if (server.styles.background == "bcg") { %>
+  .bigthingy {
+    background: rgb(29,0,255);
+    background: linear-gradient(90deg, rgba(29,0,255,1) 0%, rgba(0,255,248,1) 100%);
+  }
+  .outlink {
+    color:rgb(29,0,255);
+  }
+<% } else if (server.styles.background == "rdg") { %>
+  .bigthingy {
+    background: rgb(185,21,21);
+    background: linear-gradient(90deg, rgba(185,21,21,1) 0%, rgba(116,4,4,1) 100%);
+  }
+  .outlink {
+    color:rgb(185,21,21);
+  }
+<% } else if (server.styles.background == "pdg") { %>
+  .bigthingy {
+    background: rgb(93,3,219);
+    background: linear-gradient(90deg, rgba(93,3,219,1) 0%, rgba(10,5,48,1) 100%);
+  }
+  .outlink {
+    color:rgb(93,3,219);
+  }
+<% } else if (server.styles.background == "blk") { %>
+  .bigthingy {
+    background:#000000;
+  }
+  .outlink {
+    color:#000000;
+  }
+<% } else if (server.styles.background == "db") { %>
+  .bigthingy {
+    background:#7289DA;
+  }
+  .outlink {
+    color:#7289DA;
+  }
+<% } else if (server.styles.background == "dnqb") { %>
+  .bigthingy {
+    background:#23272A;
+  }
+  .outlink {
+    color:#23272A;
+  }
+<% } else if (server.styles.background == "dg") { %>
+  .bigthingy {
+    background:#9F9F9F;
+  }
+  .outlink {
+    color:#6D6D6D;
+  }
+<% } else if (server.styles.background == "invitebg") { %>
+  .bigthingy {
+    background: linear-gradient(90deg, rgba(32,34,37,0.5) 0%, rgba(32,34,37,0.5) 100%), url("<%= guild.splashURL({ format: 'png', size: 2048 }) %>");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+  }
+<% } else if (server.styles.background == "banner") { %>
+  .bigthingy {
+    background: linear-gradient(90deg, rgba(32,34,37,0.5) 0%, rgba(32,34,37,0.5) 100%), url("<%= guild.bannerURL({ format: 'png', size: 2048 }) %>");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+  }
+<% }  %>
+/* .navbar {
+  background: linear-gradient(180deg, rgba(32,34,37,1) 0%, rgba(32,34,37,0) 100%);
+} */
+</style>

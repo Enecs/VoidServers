@@ -1,0 +1,35 @@
+{
+  "name": "voidservers",
+  "version": "1.0.0",
+  "description": "A discord server list made by TheVoid.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "beautify": "0.0.8",
+    "body-parser": "^1.19.0",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.5",
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "klaw": "^3.0.0",
+    "markdown-it": "^11.0.1",
+    "module-alias": "^2.2.2",
+    "moment": "^2.29.0",
+    "mongoose": "^5.10.7",
+    "node-fetch": "^2.6.1",
+    "unirest": "^0.6.0"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@bot": "./bot/",
+    "@routes": "./routes/",
+    "@models": "./models/",
+    "@structures": "./structures/"
+  }
+}
