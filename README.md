@@ -9,6 +9,10 @@ The code for https://voidlist.xyz a Node.JS Discord server list.
 3. Startup the server!
 
 ---
-Developed by DanPlayz
 
-Designed by [AshMW](https://ashmw.com)
+### Notes
+We encourage you to use this as a starting point instead of just changing the name and running it.
+
+Programmed by DanPlayz and designed by [AshMW](https://ashmw.com).
+
+
