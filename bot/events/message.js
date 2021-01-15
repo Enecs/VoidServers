@@ -51,7 +51,7 @@ module.exports = class extends Event {
         .setColor('#2F3136')
         .setDescription(cmd.conf.permLevel == 'Lock' ? `The command you entered is disabled!` : `Last time I check, you are not a **${cmd.conf.permLevel}**...`)
         .setImage('https://discord.mx/TENvu8AirM.gif')
-        .setFooter(cmd.conf.permLevel == 'Lock' ? `Error: COMMAND_DISABLED\nErType: Access Denied` : `Error: INVALID_PERMISSIONS\nErType: Access Denied`);
+        .setFooter(cmd.conf.permLevel == 'Lock' ? `Error: COMMAND_DISABLED\nErType: Access Denied\nMade by Void Development (https://voiddevs.com/)` : `Error: INVALID_PERMISSIONS\nErType: Access Denied\nMade by Void Development (https://voiddevs.com/)`);
       message.channel.send(e);
       console.log(colors.yellow(`[${client.perms.find(l => l.level === level).name}] `) + colors.red(`${message.author.username} (${message.author.id}) `) + colors.white(`ran unauthorized command "`) + colors.red(`${cmd.help.name} ${args.join(' ')}`) + colors.white(`"`));
       return;

