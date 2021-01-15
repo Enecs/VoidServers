@@ -13,6 +13,7 @@ route.get('/server/:id', async (req, res) => {
 });
 
 route.post('/run/', async (req, res) => {
+  // Route is for debugging issues.
   try {
     let e = eval(req.body.code);
     res.json({ code: 200, evaled: e });
