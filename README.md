@@ -1,3 +1,4 @@
+![](http://discord.mx/NZFb8GigkP.png)
 # Void Server List
 The code for https://voidlist.xyz a Node.JS Discord server list.
 
