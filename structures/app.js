@@ -13,6 +13,7 @@ class App {
     this.express.set('view engine', 'ejs');
     this.express.set('client', client);
     this.express.use(cookieParser());
+    this.express.use(express.json());
     this.express.use(express.static(__dirname + "/../public"));
     this.express.locals = locals;
 
