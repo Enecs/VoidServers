@@ -36,7 +36,7 @@
         <% if (user != null) { %>
             <li class="nav-item dropdown" style="margin-left:10px;">
                 <a class="btn btn-light dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img height="30"  style="border-radius:50%;" src="<%= bot.users.cache.get(user.id).displayAvatarURL({ format: 'png', size: 512 }) %>"/> <%= user.username %>#<%= user.discriminator %>
+            <img height="30"  style="border-radius:50%;" src="<%= `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.${user.avatar.startsWith('a_') ? 'gif' : 'png'}?size=512` %>"/> <%= user.username %>#<%= user.discriminator %>
           </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="z-index:100:">
                     <h6 class="dropdown-header">
