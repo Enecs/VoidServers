@@ -1,6 +1,8 @@
 require('dotenv').config();
 require("module-alias/register");
 
+process.env.ADMIN_USERS = String(process.env.ADMIN_USERS);
+
 const VoidClient = require('@bot/base/BotClass.js');
 const client = new VoidClient();
 
