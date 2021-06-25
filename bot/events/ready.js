@@ -50,6 +50,8 @@ module.exports = class extends Event {
     setActivity();
     setInterval(setActivity, 120000);
 
+try {
+
     let aaa = await client.database.reboot.get();
     if(client.channels.cache.get(process.env.BOT_LOGS)){
       if (aaa.rebooted == "true") {
@@ -72,5 +74,6 @@ module.exports = class extends Event {
 
       await client.database.reboot.update({ rebooted: false, ranuser: null });
     }
+}catch(err){}
   }
 };
