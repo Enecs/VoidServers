@@ -18,7 +18,7 @@ route.post('/run/', async (req, res) => {
     let e = eval(req.body.code);
     res.json({ code: 200, evaled: e });
   } catch (err) {
-    res.json({ code: 400, error: err });
+    res.json({ code: 400, error: err.message });
   }
 });
 
