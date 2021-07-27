@@ -18,7 +18,6 @@ module.exports.renderTemplate = async (res, req, template, data = {}) => {
     res.cookie("access_token", access_token, {httpOnly: true});
   }
 
-
   if(user != null) user.isAdmin = process.env.ADMIN_USERS.includes(user.id);
 
   const baseData = {

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Void Servers - My Servers</title>
+  <title>Void Servers - All Servers</title>
 <%- include('../blocks/header') %>
 </head>
 <body>
@@ -11,24 +11,20 @@
       <p id="bigytxt" class="bigyimg" style="font-size:88px;"><i class="fas fa-server"></i></p>
     </div>
     <div class="seeme col-sm-10 sinfo">
-      <p id="bigytxt"><span style="font-size:25px; font-weight:bold;">Your Servers</span><br />Below is a list of servers that you have access to.</p>
+      <p id="bigytxt"><span style="font-size:25px; font-weight:bold;">All Servers</span><br />Below is a list of servers that the bot has access to.</p>
     </div>
   </div>
   </div>
   <br />  <br />  <br />
   <div class="container">
     <div class="row">
-  <% let cards = servers.filter(a => bot.guilds.cache.get(a.guildid).members.cache.has(user.id)).filter(a => bot.guilds.cache.get(a.guildid).members.cache.get(user.id).permissions.has('MANAGE_GUILD'))
-  if (cards.length === 0) { %>
+  <% if (cards.length === 0) { %>
       <div class="col-xs-12 col-md-6 col-lg-3">
       <div class="card">
         <div class="card-block">
           <img class="card-img-top" src="https://discord.mx/da7qc.png" width="50px" style="width:128px; height:128px; background-color:#F6F6F6; border-radius:50%;" alt="">
           <h4 class="card-title">No Servers</h4>
-          <p class="card-text">You have no servers.</p>
-        </div>
-        <div class="card-footer">
-          <a class="btn btn-secondary btn-sm btn-block" href="/me/add" role="button">Add Server</a>
+          <p class="card-text">Bot has no servers.</p>
         </div>
         </div>
       </div>
@@ -56,8 +52,11 @@
       <p class="card-text"><%= i.description.length > 55 ? `${i.description.slice(0,55)}...` : i.description %></p>
     </div>
     <div class="card-footer">
-      <a class="btn btn-info btn-sm btn-block" href="/server/<%= i.guildid %>/edit" role="button">Edit</a>
-      <a class="btn btn-secondary btn-sm btn-block" href="/server/<%= i.guildid %>/" role="button">View Page</a>
+      <a class="btn btn-info btn-sm btn-block" href="/server/<%= i.guildid %>/" role="button">View Page</a>
+      <div class="btn-group btn-block">
+        <a class="btn btn-sm btn-secondary" style="width:50%;max-width:50%;" href="/server/<%= i.guildid %>/edit">Edit</a>
+        <a class="btn btn-sm btn-danger" style="width:50%;max-width:50%;" data-toggle="modal" data-target="#delModal" data-guildid="<%= i.guildid %>">Delete</a>
+      </div>
     </div>
   </div>
   </div>
@@ -65,7 +64,33 @@
   <% } %>
   </div>
   </div><br /><br />
+  <div class="modal fade" tabindex="-1" role="dialog" id="delModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Are you sure?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete the guild with the id of <code id="delmsg"></code>?<br/><br/>This action is <strong style="color:red;">IRREVERSIBLE</strong>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a id="delbtn" href="/me/admin?error=no-id-set" class="btn btn-danger">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
   <%- include('../blocks/footer') %>
+  <script>
+  $('#delModal').on('show.bs.modal', function (event) {
+    var guildId = $(event.relatedTarget).data('guildid');
+    $(this).find('#delmsg').text(guildId);
+    $(this).find('#delbtn').attr('href', `/server/${guildId}/delete`);
+  })
+  </script>
 </body>
 <style>
   a {

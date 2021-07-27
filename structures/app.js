@@ -1,21 +1,20 @@
 const path = require("path");
 const express = require("express");
 const cookieParser = require('cookie-parser')
-const bodyParser = require("body-parser");
 
 const getFilesSync = require("@structures/fileWalk");
 const { renderTemplate } = require('@structures/middleware');
 
 class App {
-  constructor(client, locals = {}) {
+  constructor(client) {
     this.express = express();
     this.express.set('views', './dynamic');
     this.express.set('view engine', 'ejs');
     this.express.set('client', client);
     this.express.use(cookieParser());
     this.express.use(express.json());
+    this.express.use(express.urlencoded({ extended: false }));
     this.express.use(express.static(__dirname + "/../public"));
-    this.express.locals = locals;
 
     this.loadRoutes().loadErrorHandler().loadNotFound();
   }
@@ -51,7 +50,7 @@ class App {
     this.express.use(async (error, _req, res, _next) => {
       const { message, statusCode = 500 } = error;
 
-      if(statusCode >= 500) {
+      if (statusCode >= 500) {
         console.error(error);
         let data = {
           message: message,
@@ -67,9 +66,9 @@ class App {
   }
 
   loadNotFound() {
-      this.express.use(async (_req, res, _next) => {
-        renderTemplate(res, _req, 'errors/404');
-      });
+    this.express.use(async (_req, res, _next) => {
+      renderTemplate(res, _req, 'errors/404');
+    });
   }
 }
 

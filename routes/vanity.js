@@ -1,7 +1,5 @@
 const { Router } = require("express");
-const moment = require('moment');
 const Servers = require("@models/servers");
-const { renderTemplate } = require('@structures/middleware');
 
 const route = Router();
 
@@ -17,14 +15,5 @@ route.get('/:vanity', async (req, res, next) => {
 
     res.redirect(process.env.DOMAIN + "/server/" + server.guildid)
 });
-
-Array.prototype.shuffle = function () {
-    let a = this;
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
-}
 
 module.exports = route;
